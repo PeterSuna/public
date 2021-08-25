@@ -202,6 +202,24 @@ steps:
   waitFor: ['validator prep']
   id: 'oc-pyang'
 
+############### OC-PYANG 2 ###############
+- name: 'gcr.io/disco-idea-817/models-ci-image'
+  entrypoint: 'bash'
+  args: ['-c', '/go/src/github.com/openconfig/models-ci/validators/oc-pyang/test.sh']
+  secretEnv: ['GITHUB_ACCESS_TOKEN']
+  env:
+    - 'GOPATH=/go'
+    - '_PR_NUMBER=$_PR_NUMBER'
+    - '_MODEL_ROOT=$_MODEL_ROOT'
+    - 'COMMIT_SHA=$COMMIT_SHA'
+    - '_REPO_SLUG=$_REPO_SLUG'
+    - 'BRANCH_NAME=$BRANCH_NAME'
+  volumes:
+    - name: 'gopath'
+      path: /go
+  waitFor: ['validator prep']
+  id: 'oc-pyang'
+
 ############### GOYANG/YGOT ###############
 - name: 'gcr.io/cloud-builders/go:debian'
   args: ['get', 'github.com/openconfig/ygot/generator']
